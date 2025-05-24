@@ -4,19 +4,12 @@ import interfaces.ConjuntoTDA;
 import interfaces.DiccionarioSimpleTDA;
 
 public class DicSimpleA implements DiccionarioSimpleTDA {
-
-	//-------------------------------------------------------------------------------------------------------------------------//
-	// Una posible implementaci�n est�tica de diccionarios simples. Cada par clave-valor est� en un objeto que los agrupa.     //
-	// El conjunto de datos se almacena en un arreglo de estos objetos. Esta implementaci�n de diccionarios simples es         //
-	// ineficiente. Lo mejor es representarlas como un heap. Aqu� la complejidad de agregar y eliminar un par es O(n).         //
-	//-------------------------------------------------------------------------------------------------------------------------//
-
 	class Elemento {
 		int clave;
 		int valor;
 	}
 	
-	Elemento[] elementos;	// El arreglo de elementos que constituyen el diccionario. 
+	Elemento[] elementos;
 	int cant;				// La cantidad de elementos en el diccionario. Esta variable apunta a la primera posici�n disponible en el arreglo.
 	
 	public void inicializarDiccionario() {
