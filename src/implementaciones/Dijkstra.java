@@ -11,7 +11,7 @@ public class Dijkstra {
         public DiccionarioSimpleTDA previos;
     }
 
-    private static DijkstraAux calcularDistanciasPrevios(GrafoTDA grafoOriginal, int origen) { // O(n^2) >>> ya q recorre todos los nodos
+    private static DijkstraAux calcularDistanciasPrevios(GrafoTDA grafoOriginal, int origen) { //O(n) Recorre todos los vértices una vez (n vértices).
         DiccionarioSimpleTDA distancias = new DicSimpleA();
         distancias.inicializarDiccionario();
         DiccionarioSimpleTDA previos = new DicSimpleA();
@@ -33,35 +33,33 @@ public class Dijkstra {
             }
         }
 
-        // Dijkstra
+        // Dijkstra optimizado: solo recorre vecinos reales
         while (!cola.vacio()) {
             int prioridadU = cola.obtenerPrioridad();
             int u = cola.remover();
             if (distancias.recuperar(u) < prioridadU) continue;
 
-            ConjuntoTDA vecinos = grafoOriginal.vertices();
+            // Usar solo los vecinos reales de u
+            ConjuntoTDA vecinos = grafoOriginal.vecinos(u); // <-- Método optimizado
             while (!vecinos.conjuntoVacio()) {
                 int v = vecinos.elegir();
                 vecinos.sacar(v);
-                if (grafoOriginal.existeArista(u, v)) {
-                    int pesoUV = grafoOriginal.pesoArista(u, v);
-                    int nuevaDist = distancias.recuperar(u) + pesoUV;
-                    if (nuevaDist < distancias.recuperar(v)) {
-                        distancias.agregar(v, nuevaDist);
-                        previos.agregar(v, u);
-                        cola.agregarValor(v, nuevaDist);
-                    }
+                int pesoUV = grafoOriginal.pesoArista(u, v);
+                int nuevaDist = distancias.recuperar(u) + pesoUV;
+                if (nuevaDist < distancias.recuperar(v)) {
+                    distancias.agregar(v, nuevaDist);
+                    previos.agregar(v, u);
+                    cola.agregarValor(v, nuevaDist);
                 }
             }
         }
-
         DijkstraAux aux = new DijkstraAux();
         aux.distancias = distancias;
         aux.previos = previos;
         return aux;
     }
 
-    public static GrafoTDA obtenerGrafoCostos(GrafoTDA grafoOriginal, int origen) { // O(n^2) ya que recorre todos los nodos
+    public static GrafoTDA obtenerGrafoCostos(GrafoTDA grafoOriginal, int origen) { //O((n+m)log n) Recorre todos los vértices dos veces para agregarlos y luego para agregar aristas de costos. n = cantidad de vértices, m = cantidad de aristas.
         DijkstraAux aux = calcularDistanciasPrevios(grafoOriginal, origen);
         DiccionarioSimpleTDA distancias = aux.distancias;
         GrafoTDA grafoCostos = new GrafoMA();
@@ -85,7 +83,7 @@ public class Dijkstra {
         return grafoCostos;
     }
 
-    public static GrafoTDA obtenerGrafoCaminos(GrafoTDA grafoOriginal, int origen) { // O(n^2) ya que recorre todos los nodos
+    public static GrafoTDA obtenerGrafoCaminos(GrafoTDA grafoOriginal, int origen) { //O((n+m)log n) Recorre todos los vértices dos veces para agregarlos y luego para agregar aristas de caminos. n = cantidad de vértices, m = cantidad de aristas.
         DijkstraAux aux = calcularDistanciasPrevios(grafoOriginal, origen);
         DiccionarioSimpleTDA previos = aux.previos;
         GrafoTDA grafoCaminos = new GrafoMA();

@@ -19,7 +19,7 @@ public class App {
 	}
 
     public static void mostrarGrafo(GrafoTDA g) {
-		String cadena = "";
+		String cadena = ".";
 		ConjuntoTDA v = g.vertices();
 		int cantidad = contarVertices(g);
 		int[] vertices = new int[cantidad];
@@ -69,10 +69,10 @@ public class App {
         grafo.agregarArista(6, 3, 3);
         
         GrafoTDA R1 = Dijkstra.obtenerGrafoCaminos(grafo, 1);
-		System.out.println("Grafo de camino nuevo");
+		System.out.println("Grafo de caminos");
         mostrarGrafo(R1);
-		GrafoTDA R2 = Dijkstra.obtenerGrafoCaminos(grafo, 1);
-		System.out.println("Grafo de camino viejo");
+		GrafoTDA R2 = Dijkstra.obtenerGrafoCostos(grafo, 1);
+		System.out.println("Grafo de costos");
 		mostrarGrafo(R2);
     }
 }

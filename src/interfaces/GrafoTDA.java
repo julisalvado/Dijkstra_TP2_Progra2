@@ -9,4 +9,5 @@ public interface GrafoTDA {
 	public int pesoArista(int x, int y);				// Grafo inicializado y arista existente.
 	public boolean existeArista (int x, int y);			// Grafo inicializado y v�rtices existentes.
 	public ConjuntoTDA vertices();						// Grafo inicializado.
+	public ConjuntoTDA vecinos(int x);				// Grafo inicializado y v�rtice existente.
 }
