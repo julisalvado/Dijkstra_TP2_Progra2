@@ -11,7 +11,7 @@ public class Dijkstra {
         public DiccionarioSimpleTDA previos;
     }
 
-    private static DijkstraAux calcularDistanciasPrevios(GrafoTDA grafoOriginal, int origen) { //O(n) Recorre todos los vértices una vez (n vértices).
+    private static DijkstraAux calcularDistanciasPrevios(GrafoTDA grafoOriginal, int origen) { //O((n+m)log n). 
         DiccionarioSimpleTDA distancias = new DicSimpleA();
         distancias.inicializarDiccionario();
         DiccionarioSimpleTDA previos = new DicSimpleA();
@@ -21,7 +21,7 @@ public class Dijkstra {
 
         // Inicializar distancias y cola
         ConjuntoTDA nodosAux = grafoOriginal.vertices();
-        while (!nodosAux.conjuntoVacio()) {
+        while (!nodosAux.conjuntoVacio()) {    //O(n log n) recorre los n vértices una vez, cada uno realiza una inserción al heap.
             int nodo = nodosAux.elegir();
             nodosAux.sacar(nodo);
             if (nodo == origen) {
@@ -34,13 +34,13 @@ public class Dijkstra {
         }
 
         // Dijkstra optimizado: solo recorre vecinos reales
-        while (!cola.vacio()) {
+        while (!cola.vacio()) {       //O(n log n)
             int prioridadU = cola.obtenerPrioridad();
-            int u = cola.remover();
+            int u = cola.remover();   
             if (distancias.recuperar(u) < prioridadU) continue;
 
             // Usar solo los vecinos reales de u
-            ConjuntoTDA vecinos = grafoOriginal.vecinos(u); // <-- Método optimizado
+            ConjuntoTDA vecinos = grafoOriginal.vecinos(u); // <-- Método optimizado   //O(m log n), cada inserción tiene costo O(log n), recorremos m aristas por lo que el costo es O(m log n)
             while (!vecinos.conjuntoVacio()) {
                 int v = vecinos.elegir();
                 vecinos.sacar(v);
