@@ -11,14 +11,13 @@ public class Dijkstra {
         public DiccionarioSimpleTDA previos;
     }
 
-    private static DijkstraAux calcularDistanciasPrevios(GrafoTDA grafoOriginal, int origen) { //O(n) Recorre todos los vértices una vez (n vértices).
+    private static DijkstraAux calcularDistanciasPrevios(GrafoTDA grafoOriginal, int origen) { //O((n+m)log n) Recorre todos los vértices una vez (n vértices).
         DiccionarioSimpleTDA distancias = new DicSimpleA();
         distancias.inicializarDiccionario();
         DiccionarioSimpleTDA previos = new DicSimpleA();
         previos.inicializarDiccionario();
         ColaHeapTDA cola = new FilaPrioridadHeap();
         cola.inicializar(100);
-
         // Inicializar distancias y cola
         ConjuntoTDA nodosAux = grafoOriginal.vertices();
         while (!nodosAux.conjuntoVacio()) {
@@ -38,7 +37,6 @@ public class Dijkstra {
             int prioridadU = cola.obtenerPrioridad();
             int u = cola.remover();
             if (distancias.recuperar(u) < prioridadU) continue;
-
             // Usar solo los vecinos reales de u
             ConjuntoTDA vecinos = grafoOriginal.vecinos(u); // <-- Método optimizado
             while (!vecinos.conjuntoVacio()) {
@@ -64,7 +62,6 @@ public class Dijkstra {
         DiccionarioSimpleTDA distancias = aux.distancias;
         GrafoTDA grafoCostos = new GrafoMA();
         grafoCostos.inicializarGrafo();
-
         ConjuntoTDA nodos = grafoOriginal.vertices();
         while (!nodos.conjuntoVacio()) {
             int nodo = nodos.elegir();
@@ -72,7 +69,6 @@ public class Dijkstra {
             grafoCostos.agregarVertice(nodo);
         }
         nodos = grafoOriginal.vertices();
-
         while (!nodos.conjuntoVacio()) {
             int nodo = nodos.elegir();
             nodos.sacar(nodo);
@@ -88,7 +84,6 @@ public class Dijkstra {
         DiccionarioSimpleTDA previos = aux.previos;
         GrafoTDA grafoCaminos = new GrafoMA();
         grafoCaminos.inicializarGrafo();
-
         ConjuntoTDA nodos = grafoOriginal.vertices();
         while (!nodos.conjuntoVacio()) {
             int nodo = nodos.elegir();
@@ -110,4 +105,3 @@ public class Dijkstra {
         return grafoCaminos;
     }
 }
-
